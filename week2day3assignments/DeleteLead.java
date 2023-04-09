@@ -3,11 +3,13 @@ package week2.week2day3assignments;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 
 public class DeleteLead {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		/*http://leaftaps.com/opentaps/control/main
 	Delete Lead:
 		1	Launch the browser
@@ -54,14 +56,43 @@ public class DeleteLead {
 		driver.findElement(By.xpath("//input[@name='phoneAreaCode']")).sendKeys("");
 		driver.findElement(By.xpath("//input[@name='phoneNumber']")).sendKeys("8012787044");
 		
+		Thread.sleep(2000);
 		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
-		driver.findElement(By.xpath("//a[text()='11511']")).click();
+		
+		Thread.sleep(2000);
+		WebElement LeadID_1=driver.findElement(By.xpath("(//div[contains(@class,'partyId')])[2]//a"));
+		String ID= LeadID_1.getText();
+		
+		//System.out.println(ID);
+		
+		LeadID_1.click();
+		
 		driver.findElement(By.xpath("//a[text()='Delete']")).click();
+		
 		driver.findElement(By.xpath("//a[text()='Find Leads']")).click();
 		
+		Thread.sleep(2000);
 		
+		//Check if Deleted
+		driver.findElement(By.xpath("//span[text()='Phone']")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Name and ID')]")).click();
+		WebElement LeadId_input = driver.findElement(By.xpath("//input[contains(@name,'id')]"));
+		//LeadId_input.click();
+		LeadId_input.sendKeys(ID);
 		
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
 		
-	}
-
+		String Norecords= driver.findElement(By.xpath("//div[contains(text(),'No records to display')]")).getText();
+		
+		if(Norecords.contains("No records"))
+		{
+			System.out.println("The message shown is\n"+Norecords+"\nThe file has been deleted successfully");
+		}
+		
+		Thread.sleep(5000);
+		driver.close();
+		
+		}
 }
+

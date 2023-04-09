@@ -3,6 +3,7 @@ package week2.week2day3assignments;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DuplicateLead {
@@ -50,20 +51,26 @@ public class DuplicateLead {
 		driver.findElement(By.linkText("Leads")).click();
 		driver.findElement(By.xpath("//a[text()='Find Leads']")).click();
 		driver.findElement(By.xpath("//span[text()='Email']")).click();
-		
 		driver.findElement(By.xpath("//input[@name='emailAddress']")).sendKeys("divyas.us17@gmail.com");
+		
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
+		
+		Thread.sleep(2000);
+		WebElement LeadID_1=driver.findElement(By.xpath("(//div[contains(@class,'firstName')])[2]//a"));
+		String LeadName= LeadID_1.getText();
+		LeadID_1.click();
+		
 		Thread.sleep(1000);
 		
-		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
-		driver.findElement(By.xpath("//a[text()='11504']")).click();
-
+		
 		//Duplicate
 		driver.findElement(By.xpath("//a[text()='Duplicate Lead']")).click();
 		
 		
 		//Verify title
 		String Title=driver.getTitle();
-		//System.out.println(Title);
+		System.out.println(Title);
 		
 		if(Title.contains("Duplicate Lead"))
 		{
@@ -73,12 +80,37 @@ public class DuplicateLead {
 			System.out.println("The title is verified and it is not correct");
 		}
 		
-		//create lead
+		
 		driver.findElement(By.xpath("//input[@value='Create Lead']")).click();
 		
-		//span[@id='viewLead_firstName_sp']
+		//Finding Lead
+		driver.findElement(By.linkText("Leads")).click();
+		driver.findElement(By.xpath("//a[text()='Find Leads']")).click();
+		driver.findElement(By.xpath("//span[text()='Email']")).click();
+		driver.findElement(By.xpath("//input[@name='emailAddress']")).sendKeys("divyas.us17@gmail.com");
+		
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
+		Thread.sleep(1000);
 		
 		
+		//Checking Duplicate function		
+		
+		WebElement LeadID_2=driver.findElement(By.xpath("(//div[contains(@class,'firstName')])[3]//a"));
+		String Lead_DuplicateName= LeadID_2.getText();
+		
+		System.out.println(LeadName);
+		System.out.println(Lead_DuplicateName);
+		
+		if(LeadName.equals(Lead_DuplicateName))
+		{
+			System.out.println("The Duplicate function works correctly");
+		}else
+		{
+			System.out.println("There is some error in Duplicate");
+		}
+		
+		driver.close();
 		
 	}
 

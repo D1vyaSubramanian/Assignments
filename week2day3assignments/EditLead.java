@@ -30,6 +30,7 @@ public class EditLead {
 		* 16 Close the browser (Do not log out)
 */
 		
+		String NewCompanyName=null;
 		ChromeDriver driver= new ChromeDriver();
 		
 		//Open the url
@@ -52,51 +53,69 @@ public class EditLead {
 
 		driver.findElement(By.xpath("(//input[@name='firstName'])[3]")).sendKeys("Divya");
 		driver.findElement(By.xpath("(//input[@name='lastName'])[3]")).sendKeys("Subramanian");
-		
+		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
-		driver.findElement(By.xpath("//a[text()='11504']")).click();
+		//Leads List
+		WebElement LeadID_1=driver.findElement(By.xpath("(//div[contains(@class,'companyName')])[2]//a"));
+		String OldCompanyName= LeadID_1.getText();
+		LeadID_1.click();
+		Thread.sleep(1000);
+		if(OldCompanyName.equals("Bosch"))
+		{
+			NewCompanyName= "Robert Bosch";
+		}else
+		{
+			NewCompanyName= "Bosch";
+		}
 		
+		//Title
 		String Title=driver.getTitle();
-		//System.out.println(Title);
-		
+		System.out.println(Title);
+
 		//Verify title
-		if(Title.equals("View Lead | opentaps CRM"))
+		if(Title.contains("View Lead"))
 		{
 			System.out.println("The title is verified and it is correct.");
 		}else
 		{
 			System.out.println("The title is verified and it is not correct");
 		}
-		
+
 		//Edit
 		driver.findElement(By.xpath("//a[text()='Edit']")).click();
 		WebElement companyname=driver.findElement(By.id("updateLeadForm_companyName"));
-		
 		companyname.clear();
-		companyname.sendKeys("Bosch");
-		
+		companyname.sendKeys(NewCompanyName);
+		Thread.sleep(3000);
 		//Update
 		driver.findElement(By.xpath("//input[@value='Update']")).click();
 		
-	/*	//Check updated name
-		WebElement Update_CompanyName=driver.findElement(By.linkText("Bosch (11504)"));
+		//Finding Lead
+		driver.findElement(By.xpath("//a[text()='Find Leads']")).click();
+		driver.findElement(By.xpath("//span[text()='Name and ID']")).click();
+		driver.findElement(By.xpath("(//input[@name='firstName'])[3]")).sendKeys("Divya");
+		driver.findElement(By.xpath("(//input[@name='lastName'])[3]")).sendKeys("Subramanian");
+		driver.findElement(By.xpath("//button[text()='Find Leads']")).click();
+		Thread.sleep(2000);						
+		
+		//Check updated name
+		WebElement Update_CompanyName=driver.findElement(By.xpath("(//div[contains(@class,'companyName')])[2]//a"));
 		String update_company= Update_CompanyName.getText();
 		
+		if(update_company.equals(OldCompanyName))
+		{
+			System.out.println("The company name updation has been failed");
+		}else if(update_company.equals(NewCompanyName))
+		{
+			System.out.println("The company name has been updated successfully");
+				}
+
 		System.out.println(update_company);
-		*/
-		
-		Thread.sleep(1000);
-		driver.close();
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+Thread.sleep(1000);
+driver.close();
 
 	}
 

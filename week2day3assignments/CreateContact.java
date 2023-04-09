@@ -2,7 +2,7 @@ package week2.week2day3assignments;
 
 import java.time.Duration;
 
-import org.apache.commons.collections4.Get;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
